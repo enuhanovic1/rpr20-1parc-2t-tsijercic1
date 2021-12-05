@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Recept {
     private String nazivJela;
@@ -74,5 +75,20 @@ public class Recept {
         result += vrstaPripreme.toString() +(notPecenje?"":" na")+ " " + getPodatak() + " " +
                 (notPecenje ? "minuta" : "stepeni");
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Recept recept = (Recept) o;
+
+        return Objects.equals(nazivJela, recept.nazivJela);
+    }
+
+    @Override
+    public int hashCode() {
+        return nazivJela != null ? nazivJela.hashCode() : 0;
     }
 }
