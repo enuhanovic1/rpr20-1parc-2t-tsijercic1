@@ -39,7 +39,7 @@ public class Kuhar {
     }
 
     public Set<Sastojak> sviSastojci() {
-        return recepti.stream().map(Recept::getSastojci).flatMap(Collection::stream).distinct().collect(Collectors.toCollection(TreeSet::new));
+        return recepti.stream().map(Recept::getSastojci).flatMap(Collection::stream).collect(Collectors.toCollection(TreeSet::new));
     }
     public ArrayList<Recept> filtriraj(Predicate<Recept> uslov) {
         return recepti.stream().filter(uslov).collect(Collectors.toCollection(ArrayList::new));
