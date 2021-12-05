@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Recept {
     private String nazivJela;
@@ -48,33 +49,33 @@ public class Recept {
     }
 
     public void dodajSastojak(Sastojak sastojak) {
-        if (sastojci.contains(sastojak)) {
-            Sastojak kojiMijenjamo = sastojci.get(sastojci.indexOf(sastojak));
-            kojiMijenjamo.setKolicina(kojiMijenjamo.getKolicina() + sastojak.getKolicina());
-        } else {
-            sastojci.add(sastojak);
-        }
+        sastojci.stream()
+                .filter(s -> s.equals(sastojak))
+                .findFirst()
+                .ifPresentOrElse(
+                        sastojak1 -> sastojak1.setKolicina(sastojak1.getKolicina() + sastojak.getKolicina()),
+                        () -> sastojci.add(sastojak)
+                );
     }
 
     public void izbaciSastojak(Sastojak sastojak) {
-        if (!sastojci.contains(sastojak)) {
-            throw new NoSuchSastojakException("Nepoznat sastojak " + sastojak.getNaziv());
-        } else {
-            sastojci.remove(sastojak);
-        }
+        sastojci.remove(
+                sastojci.stream()
+                        .filter(sastojak1 -> sastojak1.equals(sastojak))
+                        .findFirst().orElseThrow(() -> new NoSuchSastojakException("Nepoznat sastojak " + sastojak.getNaziv()))
+        );
     }
 
     @Override
     public String toString() {
-        String result = "Recept za " + getNazivJela() + "\n";
-        for (Sastojak sastojak : sastojci) {
-            result += sastojak + "\n";
-        }
-        result += sastojci.size() == 0 ? "\n" : "";
-        boolean notPecenje = (!vrstaPripreme.equals(VrstaPripreme.PECENJE));
-        result += vrstaPripreme.toString() +(notPecenje?"":" na")+ " " + getPodatak() + " " +
-                (notPecenje ? "minuta" : "stepeni");
-        return result;
+        return "Recept za " + getNazivJela() + "\n" +
+                sastojci.stream().map(sastojak -> sastojak + "\n").collect(Collectors.joining()) +
+                (sastojci.size() == 0 ? "\n" : "") +
+                vrstaPripreme.toString() +
+                ((!vrstaPripreme.equals(VrstaPripreme.PECENJE)) ? "" : " na") +
+                " " +
+                getPodatak() + " " +
+                ((!vrstaPripreme.equals(VrstaPripreme.PECENJE)) ? "minuta" : "stepeni");
     }
 
     @Override

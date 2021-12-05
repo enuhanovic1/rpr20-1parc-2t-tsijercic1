@@ -150,7 +150,7 @@ class KuharTest {
         for (Sastojak s : sastojci)
             rezultat += s + "\n";
         String ocekivani = "1 dl ulja\n2 dl jajeta\n3 dl mlijeka\n10 g šećera\n100 g luka\n200 g brašna\n300 g pilećeg mesa\n400 g graška\n";
-        assertEquals(rezultat, ocekivani);
+        assertEquals(ocekivani, rezultat);
     }
 
     @Test

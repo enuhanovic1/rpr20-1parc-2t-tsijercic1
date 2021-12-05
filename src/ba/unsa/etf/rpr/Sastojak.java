@@ -45,12 +45,6 @@ public abstract class Sastojak implements Comparable<Sastojak>{
 
     @Override
     public int compareTo(Sastojak o) {
-        if (getKolicina() == o.getKolicina()) {
-            if (getNaziv().equals(o.getNaziv())) {
-                return 0;
-            }
-            return -1;
-        }
         return Integer.compare(getKolicina(), o.getKolicina());
     }
 }
