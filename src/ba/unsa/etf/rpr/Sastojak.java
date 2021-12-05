@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr;
 
-public abstract class Sastojak {
+public abstract class Sastojak implements Comparable<Sastojak>{
     private String naziv;
     private int kolicina;
 
@@ -41,5 +41,16 @@ public abstract class Sastojak {
     @Override
     public int hashCode() {
         return getNaziv() != null ? getNaziv().hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(Sastojak o) {
+        if (getKolicina() == o.getKolicina()) {
+            if (getNaziv().equals(o.getNaziv())) {
+                return 0;
+            }
+            return -1;
+        }
+        return Integer.compare(getKolicina(), o.getKolicina());
     }
 }

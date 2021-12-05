@@ -1,7 +1,9 @@
 package ba.unsa.etf.rpr;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,10 @@ public class Kuhar {
     }
 
     public Recept dajRecept(String nazivJela) {
-        return null;
+        return recepti.stream()
+                .filter(recept -> recept.getNazivJela().equals(nazivJela))
+                .findFirst()
+                .orElse(null);
     }
 
     public int brojRecepata() {
@@ -29,7 +34,7 @@ public class Kuhar {
     }
 
     public Set<Sastojak> sviSastojci() {
-        return null;
+        return recepti.stream().map(Recept::getSastojci).flatMap(Collection::stream).distinct().collect(Collectors.toCollection(TreeSet::new));
     }
     public ArrayList<Recept> filtriraj(Predicate<Recept> uslov) {
         return recepti.stream().filter(uslov).collect(Collectors.toCollection(ArrayList::new));
