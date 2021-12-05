@@ -30,7 +30,12 @@ public class Kuhar {
     }
 
     public ArrayList<Recept> receptiSaSastojkom(Sastojak sastojak) {
-        return recepti;
+        return recepti.stream()
+                .filter(
+                        recept ->
+                                recept.getSastojci().stream()
+                                        .anyMatch(sastojak1 -> sastojak.getNaziv().equals(sastojak1.getNaziv()))
+                ).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Set<Sastojak> sviSastojci() {
