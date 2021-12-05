@@ -24,4 +24,22 @@ public abstract class Sastojak {
     public void setKolicina(int kolicina) {
         this.kolicina = kolicina;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Sastojak)) return false;
+
+        Sastojak sastojak = (Sastojak) o;
+        if (!((this instanceof PraskastiSastojak && sastojak instanceof PraskastiSastojak)
+                || (this instanceof TecniSastojak && sastojak instanceof TecniSastojak))) {
+            return false;
+        }
+        return getNaziv() != null ? getNaziv().equals(sastojak.getNaziv()) : sastojak.getNaziv() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getNaziv() != null ? getNaziv().hashCode() : 0;
+    }
 }
