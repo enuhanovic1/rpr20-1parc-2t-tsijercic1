@@ -1,95 +1,79 @@
 package ba.unsa.etf.rpr;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class Recept {
     private String nazivJela;
-    private ArrayList<Sastojak> sastojci;
+    private List<Sastojak> sastojci;
     private VrstaPripreme vrstaPripreme;
     private int podatak;
 
     public Recept(String nazivJela) {
         this.nazivJela = nazivJela;
-        this.sastojci = new ArrayList<>();
-        this.vrstaPripreme = VrstaPripreme.KUHANJE;
+        sastojci = new ArrayList<>();
+        vrstaPripreme = VrstaPripreme.KUHANJE;
+        podatak = 0;
     }
 
     public String getNazivJela() {
         return nazivJela;
     }
 
-    public void setNazivJela(String nazivJela) {
-        this.nazivJela = nazivJela;
-    }
-
-    public ArrayList<Sastojak> getSastojci() {
+    public List<Sastojak> getSastojci() {
         return sastojci;
-    }
-
-    public void setSastojci(ArrayList<Sastojak> sastojci) {
-        this.sastojci = sastojci;
     }
 
     public VrstaPripreme getVrstaPripreme() {
         return vrstaPripreme;
     }
 
-    public void setVrstaPripreme(VrstaPripreme vrstaPripreme) {
-        this.vrstaPripreme = vrstaPripreme;
-    }
-
     public int getPodatak() {
         return podatak;
+    }
+
+    public void setNazivJela(String nazivJela) {
+        this.nazivJela = nazivJela;
+    }
+
+    public void setVrstaPripreme(VrstaPripreme vrstaPripreme) {
+        this.vrstaPripreme = vrstaPripreme;
     }
 
     public void setPodatak(int podatak) {
         this.podatak = podatak;
     }
 
-    public void dodajSastojak(Sastojak sastojak) {
-        sastojci.stream()
-                .filter(s -> s.equals(sastojak))
-                .findFirst()
-                .ifPresentOrElse(
-                        sastojak1 -> sastojak1.setKolicina(sastojak1.getKolicina() + sastojak.getKolicina()),
-                        () -> sastojci.add(sastojak)
-                );
+    public void dodajSastojak(Sastojak novi) {
+        for (Sastojak sastojak : sastojci) {
+            if (sastojak.getNaziv().equals(novi.getNaziv()) && sastojak.getClass().equals(novi.getClass())) {
+                sastojak.setKolicina(sastojak.getKolicina() + novi.getKolicina());
+                return;
+            }
+        }
+        sastojci.add(novi);
     }
 
-    public void izbaciSastojak(Sastojak sastojak) {
-        sastojci.remove(
-                sastojci.stream()
-                        .filter(sastojak1 -> sastojak1.equals(sastojak))
-                        .findFirst().orElseThrow(() -> new NoSuchSastojakException("Nepoznat sastojak " + sastojak.getNaziv()))
-        );
+    public void izbaciSastojak(Sastojak nezeljeni) throws NoSuchSastojakException {
+        for (Sastojak sastojak : sastojci) {
+            if (sastojak.getNaziv().equals(nezeljeni.getNaziv()) && sastojak.getClass().equals(nezeljeni.getClass())) {
+                sastojci.remove(sastojak);
+                return;
+            }
+        }
+        throw new NoSuchSastojakException("Nepoznat sastojak " + nezeljeni.getNaziv());
     }
 
     @Override
     public String toString() {
-        return "Recept za " + getNazivJela() + "\n" +
-                sastojci.stream().map(sastojak -> sastojak + "\n").collect(Collectors.joining()) +
-                (sastojci.size() == 0 ? "\n" : "") +
-                vrstaPripreme.toString() +
-                ((!vrstaPripreme.equals(VrstaPripreme.PECENJE)) ? "" : " na") +
-                " " +
-                getPodatak() + " " +
-                ((!vrstaPripreme.equals(VrstaPripreme.PECENJE)) ? "minuta" : "stepeni");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Recept recept = (Recept) o;
-
-        return Objects.equals(nazivJela, recept.nazivJela);
-    }
-
-    @Override
-    public int hashCode() {
-        return nazivJela != null ? nazivJela.hashCode() : 0;
+        String ispis = "Recept za " + nazivJela + "\n";
+        if (sastojci.size() == 0) ispis += "\n";
+        for (Sastojak sastojak : sastojci) {
+            ispis += sastojak + "\n";
+        }
+        if (vrstaPripreme == VrstaPripreme.PECENJE) ispis += "Peći na " + podatak + " stepeni";
+        if (vrstaPripreme == VrstaPripreme.KUHANJE) ispis += "Kuhati " + podatak + " minuta";
+        if (vrstaPripreme == VrstaPripreme.PRZENJE) ispis += "Pržiti " + podatak + " minuta";
+        return ispis;
     }
 }

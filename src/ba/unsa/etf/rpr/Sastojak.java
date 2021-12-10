@@ -1,8 +1,8 @@
 package ba.unsa.etf.rpr;
 
-public abstract class Sastojak implements Comparable<Sastojak>{
-    private String naziv;
-    private int kolicina;
+public abstract class Sastojak {
+    String naziv;
+    int kolicina;
 
     public Sastojak(String naziv, int kolicina) {
         this.naziv = naziv;
@@ -13,12 +13,12 @@ public abstract class Sastojak implements Comparable<Sastojak>{
         return naziv;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
-    }
-
     public int getKolicina() {
         return kolicina;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
     }
 
     public void setKolicina(int kolicina) {
@@ -26,25 +26,7 @@ public abstract class Sastojak implements Comparable<Sastojak>{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Sastojak)) return false;
-
-        Sastojak sastojak = (Sastojak) o;
-        if (!((this instanceof PraskastiSastojak && sastojak instanceof PraskastiSastojak)
-                || (this instanceof TecniSastojak && sastojak instanceof TecniSastojak))) {
-            return false;
-        }
-        return getNaziv() != null ? getNaziv().equals(sastojak.getNaziv()) : sastojak.getNaziv() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return getNaziv() != null ? getNaziv().hashCode() : 0;
-    }
-
-    @Override
-    public int compareTo(Sastojak o) {
-        return Integer.compare(getKolicina(), o.getKolicina());
+    public String toString() {
+        return "";
     }
 }

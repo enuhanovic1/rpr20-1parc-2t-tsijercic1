@@ -5,9 +5,8 @@ public class TecniSastojak extends Sastojak {
         super(naziv, kolicina);
     }
 
-
     @Override
     public String toString() {
-        return getKolicina() + " dl " + getNaziv();
+        return kolicina + " dl " + naziv;
     }
 }

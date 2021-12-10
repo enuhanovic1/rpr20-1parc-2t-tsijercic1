@@ -45,7 +45,7 @@ class ReceptTest {
     }
 
     @Test
-    public void izbaciSastojakTest() {
+    public void izbaciSastojakTest() throws NoSuchSastojakException {
         Recept r = new Recept("Grašak");
         r.dodajSastojak(new PraskastiSastojak("graška", 400));
         r.dodajSastojak(new PraskastiSastojak("pilećeg mesa", 300));
