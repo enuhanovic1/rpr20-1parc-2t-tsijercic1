@@ -8,7 +8,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KuharTest {
-    /*public Kuhar pomocnaKuhar() {
+    public Kuhar pomocnaKuhar() {
         Kuhar kuhar = new Kuhar();
         Recept r = new Recept("Palačinke");
         r.dodajSastojak(new PraskastiSastojak("brašna", 200));
@@ -193,5 +193,5 @@ class KuharTest {
         ArrayList<Recept> recepti = kuhar.filtriraj(r -> r.getVrstaPripreme().equals(VrstaPripreme.PECENJE));
         assertEquals(1, recepti.size());
         assertEquals("Uštipci", recepti.get(0).getNazivJela());
-    }*/
+    }
 }

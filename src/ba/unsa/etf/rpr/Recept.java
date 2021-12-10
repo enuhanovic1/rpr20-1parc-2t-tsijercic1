@@ -76,4 +76,11 @@ public class Recept {
         if (vrstaPripreme == VrstaPripreme.PRZENJE) ispis += "Pržiti " + podatak + " minuta";
         return ispis;
     }
+
+    public boolean contains(Sastojak trazeni) {
+        for (Sastojak sastojak : sastojci) {
+            if (sastojak.getNaziv().equals(trazeni.getNaziv())) return true;
+        }
+        return false;
+    }
 }
